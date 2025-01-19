@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
+import { FaUser, FaLock, FaGoogle } from "react-icons/fa";
+import Image from "next/image";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -16,52 +18,82 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-sm bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-2xl font-bold mb-6">Login</h2>
-      <form onSubmit={handleLogin}>
-        <label htmlFor="username" className="block text-sm font-medium">
-          Username
-        </label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 border rounded mb-4"
-          placeholder="Enter your username"
+    <div className="bg-[var(--secondary-background)] shadow-lg flex">
+      {/* Left Section */}
+      <div className="w-1/2 p-4">
+        <Image
+          src="/images/loginPage.png"
+          alt="Login Illustration"
+          width={600}
+          height={400}
+          className="w-full h-full object-cover rounded"
         />
-        <label htmlFor="password" className="block text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded mb-4"
-          placeholder="Enter your password"
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded mb-4"
-        >
+      </div>
+      {/* Right Section */}
+      <div className="w-1/2 flex flex-col items-center justify-center space-y-4 px-8">
+        <h1 className="text-4xl font-bold text-[var(--primary-text)]">
+          Portal
+        </h1>
+        <h2 className="text-lg text-[var(--secondary-text)]">
+          Sign in to your account
+        </h2>
+
+        {/* Username Input */}
+        <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded">
+          <FaUser className="mr-2 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Username"
+            className="w-full bg-transparent outline-none text-[var(--primary-text)]"
+          />
+        </div>
+
+        {/* Password Input */}
+        <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded">
+          <FaLock className="mr-2 text-gray-500" />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full bg-transparent outline-none text-[var(--primary-text)]"
+          />
+        </div>
+
+        {/* Forgot Password */}
+        <div className="w-full text-right">
+          <a href="#" className="text-[var(--secondary-text)]">
+            Forgot Password?
+          </a>
+        </div>
+
+        {/* Login Button */}
+        <button className="w-full bg-[var(--primary-button)] text-[var(--primary-text)] py-2 rounded">
           Login
         </button>
-        <button
-          type="button"
-          className="w-full bg-gray-200 py-2 rounded mb-4"
-          onClick={() => alert("Forgot password flow not implemented yet.")}
-        >
-          Forgot Password
+
+        {/* Divider for "Login with" */}
+        <div className="flex items-center justify-center w-full space-x-2">
+          <hr className="flex-grow border-gray-300" />
+          <span className="text-[var(--secondary-text)]">or login with</span>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+
+        {/* Google Login */}
+        <button className="text-[var(--primary-text)] font-semibold py-2 px-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-4 border border-[var(--primary-border)]">
+          <Image
+            src="/images/google.png"
+            alt="Google Icon"
+            width={25}
+            height={25}
+          />
         </button>
-      </form>
-      <div className="flex justify-between items-center">
-        <button
-          onClick={() => router.push("/signup")}
-          className="text-blue-500 underline"
-        >
-          Sign up
-        </button>
+
+        {/* Register Link */}
+        <p className="text-center text-[var(--primary-text)]">
+          Don’t have an account?{" "}
+          <a href="#" className="text-[var(--secondary-text)]">
+            Register here...
+          </a>
+        </p>
       </div>
     </div>
   );
