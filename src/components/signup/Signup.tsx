@@ -1,35 +1,41 @@
 "use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { FaLock, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { FaLock, FaUser, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 
-export default function LoginForm() {
+const SignupComponent = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "" });
   const router = useRouter();
 
-  const handleLogin = async () => {
-    if (!email || !password) {
+  const handleSignup = () => {
+    if (!name || !email || !password) {
       showToast("All fields are required!", "error");
       return;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       showToast("Please enter a valid email address!", "error");
       return;
     }
 
+    if (password !== confirmPassword) {
+      showToast("Passwords don't match!", "error");
+      return;
+    }
+
     setPassword("");
+    setConfirmPassword("");
+    setName("");
     setEmail("");
-    showToast("Login successful!", "success");
-    localStorage.setItem("isLogin", JSON.stringify(true));
-    router.push("/home");
+    showToast("Signup successful!", "success");
+    router.push("/login");
   };
 
   const showToast = (message: string, type: any) => {
@@ -49,24 +55,36 @@ export default function LoginForm() {
           {toast.message}
         </div>
       )}
+
       {/* Left Section */}
       <div className="w-1/2 p-4">
         <Image
           src="/images/loginPage.png"
-          alt="Login Illustration"
+          alt="Signup Illustration"
           width={600}
           height={400}
           className="w-full h-full object-cover rounded"
         />
       </div>
+
       {/* Right Section */}
       <div className="w-1/2 flex flex-col items-center justify-center space-y-4 px-8">
         <h1 className="text-4xl font-bold text-[var(--primary-text)]">
-          Portal
+          Register Now
         </h1>
-        <h2 className="text-lg text-[var(--secondary-text)]">
-          Sign in to your account
-        </h2>
+
+        {/* Name Input */}
+        <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded">
+          <FaUser className="mr-2 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full bg-transparent outline-none text-[var(--primary-text)]"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
         {/* Email Input */}
         <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded">
           <FaEnvelope className="mr-2 text-gray-500" />
@@ -78,6 +96,7 @@ export default function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+
         {/* Password Input */}
         <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded relative">
           <FaLock className="mr-2 text-gray-500" />
@@ -99,26 +118,45 @@ export default function LoginForm() {
             )}
           </div>
         </div>
-        {/* Forgot Password */}
-        <div className="w-full text-right">
-          <a href="#" className="text-[var(--secondary-text)]">
-            Forgot Password?
-          </a>
+
+        {/* Confirm Password Input */}
+        <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded relative">
+          <FaLock className="mr-2 text-gray-500" />
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Confirm Password"
+            className="w-full bg-transparent outline-none text-[var(--primary-text)]"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <div
+            className="absolute right-4 cursor-pointer"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? (
+              <FaEyeSlash className="text-gray-500" />
+            ) : (
+              <FaEye className="text-gray-500" />
+            )}
+          </div>
         </div>
-        {/* Login Button */}
+
+        {/* Signup Button */}
         <button
-          className="w-full bg-[var(--primary-button)] text-[var(--primary-text)] py-2 rounded"
-          onClick={handleLogin}
+          className="w-full bg-[var(--primary-button)] text-white py-2 rounded hover:bg-[var(--primary-border)]"
+          onClick={handleSignup}
         >
-          Login
+          Signup
         </button>
-        {/* Divider for "Login with" */}
+
+        {/* Divider for "Signup with" */}
         <div className="flex items-center justify-center w-full space-x-2">
           <hr className="flex-grow border-gray-300" />
-          <span className="text-[var(--secondary-text)]">or login with</span>
+          <span className="text-[var(--secondary-text)]">or signup with</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        {/* Google Login */}
+
+        {/* Google Signup */}
         <button className="text-[var(--primary-text)] font-semibold py-2 px-2 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-4 border border-[var(--primary-border)]">
           <Image
             src="/images/google.png"
@@ -127,17 +165,9 @@ export default function LoginForm() {
             height={25}
           />
         </button>
-        {/* Register Link */}
-        <p className="text-center text-[var(--primary-text)] text-sm">
-          Don’t have an account?{" "}
-          <Link
-            href="/signup"
-            className="text-lg text-[var(--secondary-text)] hover:underline"
-          >
-            Register here...
-          </Link>
-        </p>
       </div>
     </div>
   );
-}
+};
+
+export default SignupComponent;
