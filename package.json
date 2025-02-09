@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/json-schema": "^7.0.15",
     "next": "15.1.4",
     "react": "^19.0.0",
