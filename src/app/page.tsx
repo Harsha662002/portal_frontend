@@ -1,13 +1,13 @@
 import { Component } from "react";
 import HomePage from "./home/page";
 import LoginPage from "./login/page";
+import { isUserLogin } from "@/utils/helperFunctions";
 
 export default function Home() {
-  const isLogin = JSON.parse(localStorage.getItem("isLogin") || "false");
+  const isLogin = isUserLogin();
   return <main>{isLogin ? <HomePage /> : <LoginPage />}</main>;
 }
 
 //in queue
-// 2. hashing function, isEmptyorNull custom function
 // 3. api calls for signup and login
 // 4. google signup and login

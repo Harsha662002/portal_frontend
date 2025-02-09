@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 
 interface ToastProps {
   message: string;
-  type: "success" | "error" | "";
+  type: string;
   onClose: () => void;
 }
 
