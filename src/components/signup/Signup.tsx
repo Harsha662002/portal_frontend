@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaLock, FaUser, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
+import Toast from "../toast/CustomToast";
 
 const SignupComponent = () => {
   const [name, setName] = useState("");
@@ -38,23 +39,18 @@ const SignupComponent = () => {
     router.push("/login");
   };
 
-  const showToast = (message: string, type: any) => {
+  const showToast = (message: string, type: "success" | "error") => {
     setToast({ message, type });
-    setTimeout(() => setToast({ message: "", type: "" }), 3000);
   };
 
   return (
     <div className="bg-[var(--secondary-background)] shadow-lg flex relative">
       {/* Toast Notification */}
-      {toast.message && (
-        <div
-          className={`absolute top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded text-white ${
-            toast.type === "error" ? "bg-red-500" : "bg-green-500"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "" })}
+      />
 
       {/* Left Section */}
       <div className="w-1/2 p-4">
@@ -84,7 +80,6 @@ const SignupComponent = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-
         {/* Email Input */}
         <div className="flex items-center w-full bg-[var(--tertiary-background)] p-2 rounded">
           <FaEnvelope className="mr-2 text-gray-500" />
