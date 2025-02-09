@@ -1,10 +1,10 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaLock, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import Toast from "../toast/CustomToast";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -32,23 +32,18 @@ export default function LoginForm() {
     router.push("/home");
   };
 
-  const showToast = (message: string, type: any) => {
+  const showToast = (message: string, type: "success" | "error") => {
     setToast({ message, type });
-    setTimeout(() => setToast({ message: "", type: "" }), 3000);
   };
 
   return (
     <div className="bg-[var(--secondary-background)] shadow-lg flex relative">
       {/* Toast Notification */}
-      {toast.message && (
-        <div
-          className={`absolute top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded text-white ${
-            toast.type === "error" ? "bg-red-500" : "bg-green-500"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "" })}
+      />
       {/* Left Section */}
       <div className="w-1/2 p-4">
         <Image
