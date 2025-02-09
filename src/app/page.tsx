@@ -8,7 +8,6 @@ export default function Home() {
 }
 
 //in queue
-// 1. custom toast Component- better ui, better responses.
 // 2. hashing function, isEmptyorNull custom function
 // 3. api calls for signup and login
 // 4. google signup and login
